@@ -17,7 +17,8 @@ category: presentation
 <section data-markdown>
 ## HTML or Markdown
 Reveal.js works with either. Use whatever you are more comfortable with.
-
+</section>
+<section>
 <h2>Model equation</h2>
      The equation of the theoretical curve is:
 	 \[ N= N_{0} e^{- \lambda t} \]
