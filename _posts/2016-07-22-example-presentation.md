@@ -33,6 +33,7 @@ By creating presentations using Reveal.js and hosting them on your Jekyll Academ
 </section>
 
 <section>
+	<small>
    <div class="sage">
       <script type="text/x-sage">
          
@@ -77,6 +78,7 @@ pl2 = list_plot(model,plotjoined=True,linestyle='--',color='red',marker='x',lege
 show(pl1+pl2)
       </script>
      </div>
+     </small>
   </section>
 <section data-markdown>
 ## More Information
