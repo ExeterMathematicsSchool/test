@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>Physics at EMS</title>
+
+    <meta charset="utf-8">
+
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+      });
+    </script>
+    <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+    <script>sagecell.makeSagecell({"inputLocation": ".sage"});</script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+
+    <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.js"></script>
+
+    <style>
+      body {font-size: 200%; }
+      div.container { margin-top: 20px; margin-bottom: 100px; }
+      #main  h1 { margin-top: 50px; padding-top: 20px; border-top: 1px solid #cccccc; }
+      #main  h2 { margin-top: 40px; }
+      @media screen{ #main h1 { padding-top: 100px; } }
+      div.sage { padding-top: 20px; padding-bottom: 20px; font-size: 75%; }
+
+      nav[data-toggle='toc'] {
+      margin-top: 30px;
+      margin-left: 30px;
+      }
+    </style>
+
+  </head>
+  <body data-spy="scroll" data-target="#toc">
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <h1 data-toc-skip>Radioactive Decay Modelling</h1>
+      by Joe Rowing<br>
+      last updated 8/27/2017
+    </div>
+  </div>
+</nav>
+    <div class="container" id="main">
+      <div class="row" style="margin-top: 20px;">
+
+        <div class="col-md-9">
+         <h1> Theory:</h1>
+		 Radioactive decay is based on the assumption that the disintegrations are entirely at random. <br>
+		 This can be modelled using dice to represent the atoms of a radioactive isotope.
+		 <h2>Activity</h2>
+		 In this experiment you are crudely modelling radioactive decay with dice. The activity formula -
+		 \[ \frac{dn}{dt}=- \lambda N \]
+		 Then must have the form:
+		 \[ \frac{dn}{dt}= -\frac{1}{6} N \]
+		 That is, every roll of the dice should cause approximately one-sixth of the dice to "decay" <br>
+		 <h2>Results and graph</h2>
+		 You will need to take enough results to plot a graph showing the exponential decay, you can compare this to the theoretical decay curve: \[ N= N_{0} e^{- \lambda t} \]
+		 Where "t" is the number of throws, here representing the passage of one second.
+
+		 <h1>Apparatus:</h1>
+		 1000 dice <br>
+		 10 ×cups to hold 100 dice each
+
+		 <h1>Further guidance</h1>
+		 The Cubes with only one side coloured come as a kit from Philip Harris catalogue number B8G85951.<br>
+		 <a href="http://www.philipharris.co.uk/product/Half-Life-Analogue-B8G85951Experimental"> This is the kit</a>
+
+		 <h1>Method:</h1>
+		 Each student should have an equal share of the 1000 dice (or cubes) and a cup. <br>
+
+		 Throw the dice onto the table.<br>
+<br>
+		 Suppose all the dice with the number 1 uppermost have disintegrated. <br>
+		 Remove these dice and count the number remaining. <br>
+		 Repeat this for a further 9 throws (making 10 in all) and note down the number of throws and the number of dice remaining each time. <br>
+		 When complete combine the results of the class so you have data for 1000 dice rolled 10 times. <br>
+
+		 Plot a graph of number of dice remaining (y-axis) against number of throws (x-axis). This should give an exponential curve with a half-life of about 3.8 throws. <br>
+
+
+
+     <h2>Model equation</h2>
+     The equation of the theoretical curve is:
+	 \[ N= N_{0} e^{- \lambda t} \]
+
+	 <h1>Simulation</h1>
+		 Below we have some python code that will simulate your results.<br>
+		 You will notice a number of variables that you might like to investigate to see how they might affect your investigation - these include the initial population (the number of dice you start with) and the number of experiments you do (they will be automatically averaged) <br>
+		 Each time you chage a variable, click "Evaluate" to re-run the code.
+
+     <div class="sage">
+      <script type="text/x-sage"># some library objects we need
+from numpy.random import binomial, seed
+from numpy import zeros, arange
+from matplotlib import pyplot as plt
+# initial population
+P0 = 80
+
+# number of rolls per experiment
+n_rolls = 50
+
+# number of experiments
+n_exp = 1
+
+# probability that any given die will "decay" on a given roll
+p = 1/6
+# location to track average dice remaining for each roll number
+pop_avg = zeros(n_rolls+1)
+
+# "seed" the random number generator
+# (This makes the results look different
+# each time the code is run.)
+seed()
+
+# loop over experiments
+for n in range(n_exp):
+
+  # reset the dice population
+  P = P0
+
+  # roll the dice
+  for k in range(1,n_rolls+1):
+
+    # figure out how many dice decay this time
+    r = binomial(P,p)
+
+    # remove the dice
+    P -= r
+
+    # update the average
+    pop_avg[k] += P
+
+# final division to compute the averages
+pop_avg /= n_exp
+
+# we always started with P0
+pop_avg[0] = P0
+
+# compute the model predictions
+model = (1.0-p)**arange(n_rolls+1.0)*P0
+
+pl1 = list_plot(pop_avg,plotjoined=True,marker='+',legend_label='Model results',axes_labels=['roll #', '# dice'])
+pl2 = list_plot(model,plotjoined=True,linestyle='--',color='red',marker='x',legend_label='Theoretical curve')
+
+show(pl1+pl2)
+      </script>
+     </div>
+
+     <h1>Your results</h1>
+
+          <div class="sage">
+      <script type="text/x-sage"># some library objects we need
+from numpy.random import binomial, seed
+from numpy import zeros, arange
+from matplotlib import pyplot as plt
+# initial population - needed for modelling the theoretical line
+P0 = 80
+
+# number of rolls in your experiment - needed for modelling the theoretical line
+n_rolls =
+
+# Probability of decay - needed for modelling the theoretical line
+
+p= 1/6
+
+
+# compute the model predictions
+model = (1.0-p)**arange(n_rolls+1.0)*P0
+
+# Enter your results as pairs of figures, add more brackets when you need to:
+
+results = (1, y), (2, y), (3, y), (4, y), (5, y), (6, y), (7, y), (8, y), (9, y), (10, y), (11, y), (12, y)
+
+pl1 = list_plot(results,plotjoined=True,marker='+',legend_label='averaged',axes_labels=['roll #', '# dice'])
+pl2 = list_plot(model,plotjoined=True,linestyle='--',color='red',marker='x',legend_label='model')
+
+show(pl1+pl2)
+      </script>
+     </div>
+
+
+     <h1>Conclusions</h1>
+
+        </div>
+
+        <div class="col-md-2">
+          <nav id="toc" data-toggle="toc" data-spy="affix"></nav>
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>
