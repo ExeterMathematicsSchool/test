@@ -29,7 +29,9 @@ By creating presentations using Reveal.js and hosting them on your Jekyll Academ
 
 <section>
    <div class="sage">
-      <script type="text/x-sage"># some library objects we need
+      <script type="text/x-sage">
+         
+         # some library objects we need
 from numpy.random import binomial, seed
 from numpy import zeros, arange
 from matplotlib import pyplot as plt
